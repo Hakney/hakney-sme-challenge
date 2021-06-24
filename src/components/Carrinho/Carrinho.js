@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Table, Space } from 'antd';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Badge } from 'antd';
-import { renderizarCarrinho } from '../../actions/CarrinhoActions';
+import { renderizarCarrinho, adicionarAoCarrinho, removerDoCarrinho } from '../../actions/CarrinhoActions';
 
 import './Carrinho.css';
 
@@ -18,7 +18,7 @@ class Carrinho extends Component {
     render() {
       const { Header, Content, Footer } = Layout;
       
-      const {carrinho} = this.props;
+      const {carrinho, contador} = this.props;
 
       const columns = [
         {
@@ -36,10 +36,11 @@ class Carrinho extends Component {
         {
           title: 'Action',
           key: 'action',
+          width: '60px',
           render: (text, record) => (
             <Space size="middle">
-              {/* <a>Invite {record.name}</a> */}
-              <a href="/">Delete</a>
+              <PlusOutlined onClick={() => this.props.adicionarAoCarrinho(contador)}/>
+              <MinusOutlined onClick={() => this.props.removerDoCarrinho(contador)}/>
             </Space>
           ),
         },
@@ -47,12 +48,13 @@ class Carrinho extends Component {
       return (
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <Menu theme="dark" mode="horizontal"  selectable={false} >
-              <Menu.Item key="1">
-              <Badge count={5} size={'small'} >
-                <ShoppingCartOutlined style={{fontSize: '25px', color: 'white'}} onClick={() => console.log("Clicado")}/>
-              </Badge>
+            <Menu theme="dark" mode="horizontal"  selectable={false}  style={{ marginRight: '20px'}}>
+              <Menu.Item key="1" >
+                <Badge count={contador} size={'small'} >
+                  <ShoppingCartOutlined style={{fontSize: '25px', color: 'white'}} onClick={() => console.log("Clicado")}/>
+                </Badge>
               </Menu.Item>
+              Total da compra: 
             </Menu>
           </Header>
           <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
@@ -77,12 +79,15 @@ class Carrinho extends Component {
   
   const mapStateToProps = store => ({
     
-    carrinho: store.carrinhoState.carrinho
+    carrinho: store.carrinhoState.carrinho,
+    contador: store.carrinhoState.contador
   });
   
   const mapDispatchToProps = dispatch =>
       bindActionCreators({ 
-        renderizarCarrinho
+        renderizarCarrinho,
+        adicionarAoCarrinho,
+        removerDoCarrinho
       }, dispatch);
   
   export default connect(mapStateToProps, mapDispatchToProps)(Carrinho);
