@@ -11,7 +11,8 @@ const initialState = {
                 titulo:'Arroz',
                 preco: 4.99,
                 descricao: 'Arroz branco, Camil 1kg',
-                estoque: 5
+                estoque: 5,
+                qtdCompra: 0
             },
             {
                 key: 2,
@@ -19,7 +20,9 @@ const initialState = {
                 titulo:'Feijão',
                 preco: 6.99,
                 descricao: 'Feijão carioca, Camil 1kg',
-                estoque: 10
+                estoque: 10,
+                qtdCompra: 0
+
             },
             {
                 key: 3,
@@ -27,7 +30,8 @@ const initialState = {
                 titulo:'Macarrão',
                 preco: 3.99,
                 descricao: 'Macarrão divino sabor, 800g',
-                estoque: 8
+                estoque: 8,
+                qtdCompra: 0
             }   
         ],
         contador: 0,
@@ -46,7 +50,7 @@ export const carrinhoReducer = (state = initialState, action) => {
     case ADICIONAR_TOTAL:
         return {...state, totalCompras: action.totalCompras + state.totalCompras};
     case REMOVER_TOTAL:
-        return {...state, totalCompras: action.totalCompras - state.totalCompras};
+        return {...state, totalCompras: state.totalCompras - action.totalCompras};
     default:
       return state;
   }
