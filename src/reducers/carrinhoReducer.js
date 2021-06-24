@@ -1,8 +1,7 @@
-import { RENDER_CARRINHO, INCREMENTAR, DECREMENTAR } from "../actions/actionTypes";
+import { RENDER_CARRINHO, INCREMENTAR, DECREMENTAR, ADICIONAR_TOTAL, REMOVER_TOTAL} from "../actions/actionTypes";
 import arroz from '../imagensProdutos/arroz.jpg';
 import feijao from '../imagensProdutos/feijao.jpeg';
 import macarrao from '../imagensProdutos/macarrao.jpg';
-import {formatarReal} from '../Util/index';
 
 const initialState = {
         carrinho: [
@@ -10,7 +9,7 @@ const initialState = {
                 key: 1,
                 foto: <img style={{wkeyth: '100px', height: '100px'}} src={arroz} alt="Arroz" />,
                 titulo:'Arroz',
-                preco: formatarReal(4.99),
+                preco: 4.99,
                 descricao: 'Arroz branco, Camil 1kg',
                 estoque: 5
             },
@@ -18,15 +17,15 @@ const initialState = {
                 key: 2,
                 foto: <img style={{width: '100px', height: '100px'}} src={feijao} alt="Feijão" />,
                 titulo:'Feijão',
-                preco: formatarReal(6.99),
+                preco: 6.99,
                 descricao: 'Feijão carioca, Camil 1kg',
                 estoque: 10
             },
             {
-                id: 3,
+                key: 3,
                 foto: <img style={{width: '100px', height: '100px'}} src={macarrao} alt="Macarrão" />,
                 titulo:'Macarrão',
-                preco: formatarReal(3.99),
+                preco: 3.99,
                 descricao: 'Macarrão divino sabor, 800g',
                 estoque: 8
             }   
@@ -44,6 +43,10 @@ export const carrinhoReducer = (state = initialState, action) => {
         return {...state, contador: action.contador};
     case DECREMENTAR:
         return {...state, contador: action.contador};
+    case ADICIONAR_TOTAL:
+        return {...state, totalCompras: action.totalCompras + state.totalCompras};
+    case REMOVER_TOTAL:
+        return {...state, totalCompras: action.totalCompras - state.totalCompras};
     default:
       return state;
   }

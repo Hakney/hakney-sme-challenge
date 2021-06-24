@@ -18,20 +18,17 @@ class Carrinho extends Component {
 
   }
 
-  handleAdicionar(contador, record){
+  handleAdicionar(contador, produto){
     const {carrinho} = this.props;
 
     const produtoEstoque = carrinho.filter((p) => {
-      return p.estoque > 0 && p.key === record.key;
+      return p.estoque > 0 && p.key === produto.key;
     })
 
     if(produtoEstoque.length > 0){
-      this.props.adicionarAoCarrinho(contador);
+      this.props.adicionarAoCarrinho(contador, produto);
     } else {
-      return notification.error({
-        message: "Error",
-        description: "Produto sem estoque",
-      });
+      return notification.error({message: "Error", description: "Produto sem estoque"});
     }
   }
 
@@ -42,25 +39,25 @@ class Carrinho extends Component {
 
       const columns = [
         {
-          title: 'foto',
+          title: 'Foto',
           dataIndex: 'foto',
         },
         {
-          title: 'titulo',
+          title: 'Título',
           dataIndex: 'titulo',
         },
         {
-          title: 'preco',
+          title: 'Preço',
           dataIndex: 'preco',
         },
         {
-          title: 'Action',
+          title: 'Ações',
           key: 'action',
           width: '60px',
-          render: (text, record) => (
+          render: (produto) => (
             <Space size="middle">
-              <PlusOutlined onClick={() => this.handleAdicionar(contador, record)}/>
-              <MinusOutlined onClick={() => this.props.removerDoCarrinho(contador)}/>
+              <PlusOutlined onClick={() => this.handleAdicionar(contador, produto)}/>
+              <MinusOutlined onClick={() => this.props.removerDoCarrinho(contador, produto)}/>
             </Space>
           ),
         },
