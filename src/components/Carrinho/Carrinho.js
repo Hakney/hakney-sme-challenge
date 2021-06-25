@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Table, Space, Layout, Menu, Badge, notification } from 'antd';
+import { Table, Space, Layout, Menu, Badge, notification, Popover } from 'antd';
 import { ShoppingCartOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { renderizarCarrinho, adicionarAoCarrinho, removerDoCarrinho } from '../../actions/CarrinhoActions';
 import {formatarReal} from '../../Util/index';
@@ -64,13 +64,25 @@ class Carrinho extends Component {
           ),
         },
       ]
+
+      //Estático
+      const content = (
+        <div>
+          <p>Arroz: {carrinho[0].qtdCompra}</p>
+          <p>Feijão: {carrinho[1].qtdCompra}</p>
+          <p>Macarrão: {carrinho[2].qtdCompra}</p>
+        </div>
+      );
+
       return (
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
             <Menu theme="dark" mode="horizontal"  selectable={false}  style={{ marginRight: '20px'}}>
               <Menu.Item key="1" >
                 <Badge count={contador} size={'small'} >
-                  <ShoppingCartOutlined style={{fontSize: '25px', color: 'white'}}/>
+                  <Popover content={content} title="Quantidade" trigger="hover">
+                    <ShoppingCartOutlined style={{fontSize: '25px', color: 'white'}}/>
+                  </Popover>
                 </Badge>
               </Menu.Item>
               Total da compra: {formatarReal(totalCompras)}
