@@ -29,8 +29,16 @@ class Carrinho extends Component {
   }
 
   handleRemover(contador, produto){
-    if(produto.qtdCompra > 0){
+    const {carrinho} = this.props;
+
+    const qtdCarrinho = carrinho.reduce((soma, total) => {
+      return soma + total.qtdCompra;
+    }, 0);
+
+    if(produto.qtdCompra > 0 && qtdCarrinho > 1){
       this.props.removerDoCarrinho(contador, produto);
+    } else if(produto.qtdCompra > 0 && qtdCarrinho === 1){
+      return notification.error({message: "Error", description: "Carrinho não pode ser esvaziado"});
     }
   }
 
@@ -65,7 +73,6 @@ class Carrinho extends Component {
         },
       ]
 
-      //Estático
       const content = (
         <div>
           <p>Arroz: {carrinho[0].qtdCompra}</p>
